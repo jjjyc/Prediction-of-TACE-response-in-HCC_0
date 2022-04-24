@@ -10,3 +10,5 @@ Directory "Prediction" is the treatment response prediction network (Model 2).
 # models 
 The best model we have trained for the 2 models
 
+# Enviroment 
+Use anaconda3 to run "conda env create -f ./conda_env.yml".
