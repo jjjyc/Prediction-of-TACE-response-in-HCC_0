@@ -70,7 +70,7 @@ print('best_dice = ' + str(dice_max))
 #######################################################
 # Setting up the model
 #######################################################
-nrgbase= './DSA_LTD'
+
 
 model_test0 = UNet(input_channel0, output_channel)  #model_TDL
 model_test0.to(device)
@@ -83,14 +83,14 @@ model_test2.to(device2)
 
 #To continue training from the trained model
 
-#TDL_path = '/main/models/model0/loss_min.path'
+#TDL_path = '/main/models/DSA_LTD/model0.path'
 #model_test0.load_state_dict(torch.load(TDL_path, map_location = {'cuda:1':'cuda:1'}))
 
-#LRS_path = '/main/models/model1/loss_min.path'
+#LRS_path = '/main/models/DSA_LTD/model1.path'
 #model_test1.load_state_dict(torch.load(LRS_path, map_location = {'cuda:2':'cuda:2'}))
 
 #
-#FSS_path = '/main/models/model2/loss_min.path'
+#FSS_path = '/main/models/DSA_LTD/model2.path'
 #model_test2.load_state_dict(torch.load(FSS_path, map_location = {'cuda:6':'cuda:3'}))
 
 
@@ -150,7 +150,7 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, MAX_STEP, eta_
 #######################################################
 # Writing the params to tensorboard
 #######################################################
-output_root = nrgbase + '/exp0'
+output_root ='./exp0'
 
 board_dir = os.path.join(output_root, 'board0')
 writer1 = SummaryWriter(board_dir)

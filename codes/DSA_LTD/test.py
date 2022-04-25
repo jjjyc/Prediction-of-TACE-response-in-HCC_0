@@ -51,24 +51,22 @@ torch.cuda.manual_seed(SEED)
 #######################################################
 # Setting up the model
 #######################################################
-
-nrgbase = './DSA_LTD'
+model_root = '/main/models/DSA_LTD'
 
 model_test0 = UNet(input_channel0, output_channel)  #model_TDL
-model_test0.to(device)
-model_test1 = UNet(input_channel1, output_channel) #model_LRS
-model_test1.to(device1)
-model_test2 = UNet(input_channel2, output_channel) #model_fss
-model_test2.to(device2)
-
-TDL_path = '/main/models/model0/dice_max.path'
+TDL_path = model_root + '/model0.path'
 model_test0.load_state_dict(torch.load(TDL_path, map_location = {'cuda:1':'cuda:1'}))
+model_test0.to(device)
 
-LRS_path = '/main/models/model1/dice_max.path'
+model_test1 = UNet(input_channel1, output_channel) #model_LRS
+LRS_path =  model_root + '/model1.path'
 model_test1.load_state_dict(torch.load(LRS_path, map_location = {'cuda:2':'cuda:2'}))
+model_test1.to(device1)
 
-FSS_path = '/main/models/model2/dice_max.path'
+model_test2 = UNet(input_channel2, output_channel) #model_fss
+FSS_path =  model_root + '/model2.path'
 model_test2.load_state_dict(torch.load(FSS_path, map_location = {'cuda:3':'cuda:3'}))
+model_test2.to(device2)
 
 model_test0.eval()
 model_test1.eval()
@@ -97,7 +95,7 @@ dataloaders_dict = torch.utils.data.DataLoader(test_Data, batch_size=1, shuffle=
 # output dir
 #######################################################
 
-output_root = nrgbase + '/test_result/
+output_root = './test_result/
 check_create_dir(output_root)
 
 dir_pre1 = os.path.join(output_root, 'pred1')
