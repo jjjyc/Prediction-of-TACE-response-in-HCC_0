@@ -33,7 +33,7 @@ num_workers = 4
 pin_memory = True
 
 # train setting
-epoch = 100
+epoch = 150
 batch_size = 64
 print('epoch = ' + str(epoch))
 print('batch_size = ' + str(batch_size))
@@ -61,10 +61,13 @@ i_valid = 0
 #######################################################
 # Passing the Dataset of Images and Labels
 #######################################################
-nrgbase = './Prediction'
+
+
+data_root = '/main/data/Prediction'
 
 feature_names = ['HB', 'drug-new', 'serum', 'AST', 'CP', 'gender', 'age', 'ALB', 'PT', 'ALT', 'CPR', 'AFP']
-img_root = nrgbase + '/img_data'
+
+img_root ='/main/data/Prediction'
 img_dir = os.path.join(img_root, 'pre_img')
 mask_dir = os.path.join(img_root, 'gts')
 multi_dir = os.path.join(img_root, 'multi_gts')
@@ -72,7 +75,7 @@ multi_dir = os.path.join(img_root, 'multi_gts')
 #input_channel = 1
 
 # train loader
-train_data_dir = os.path.join(nrgbase, 'TREATtr.xlsx') # patients' clinical data
+train_data_dir = os.path.join(data_root, 'TREATtr.xlsx') # patients' clinical data
 original_train_data = pd.read_excel(train_data_dir)
 train_img_path, train_mask_path, train_multi_path, x_train, y_train, input_channels = load_combined_xy(img_dir, mask_dir, multi_dir, original_train_data, feature_names)
 Train_data = Load_Com_Data(train_img_path, train_mask_path, train_multi_path, x_train, y_train, 'train')
@@ -81,7 +84,7 @@ num_train = len(Train_data)
 print(num_train)
 
 # test loader
-val_data_dir = os.path.join(nrgbase, 'TREATte.xlsx') # patients' clinical data
+val_data_dir = os.path.join(data_root, 'TREATte.xlsx') # patients' clinical data
 original_val_data = pd.read_excel(val_data_dir)
 val_img_path, val_mask_path, val_multi_path, x_val, y_val, input_channels2 =load_combined_xy(img_dir, mask_dir, multi_dir, original_val_data, feature_names)
 
@@ -104,19 +107,19 @@ print (ic)
 # Loading model
 #######################################################
 mlp = combine_feature_model(ic)
-#mlp_path =nrgbase + '/model/model1/acc_max.path'
+#mlp_path ='/main/models/Prediction/model1.path'
 #mlp.load_state_dict(torch.load(mlp_path, map_location={'cuda:7':'cuda:7'}))
 model1 = mlp.to(device)
 
 
 rn = models.resnet18(pretrained=False)
 resnet = img_model(rn, 0.2)
-#resnet_path = =nrgbase + '/model/model2/acc_max.path'
+#resnet_path = '/main/models/Prediction/model2.path'
 #resnet.load_state_dict(torch.load(resnet_path, map_location = {'cuda:7':'cuda:7'}))
 model2 = resnet.to(device)
 
 model3 = muin_model(1128)
-#muin_path = =nrgbase + '/model/model3/acc_max.path'
+#muin_path = '/main/models/Prediction/model3.path'
 #model3.load_state_dict(torch.load(muin_path, map_location = {'cuda:7':'cuda:7'}))
 model3 = model3.to(device)
 
@@ -163,7 +166,7 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, MAX_STEP, eta_
 #######################################################
 # output_root
 #######################################################
-output_root = nrgbase +'/exp2'
+output_root = './exp2'
 check_create_dir(output_root)
 
 #######################################################
