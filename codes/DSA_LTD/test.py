@@ -61,13 +61,13 @@ model_test1.to(device1)
 model_test2 = UNet(input_channel2, output_channel) #model_fss
 model_test2.to(device2)
 
-TDL_path = nrgbase+ '/models/model0/dice_max.path'
+TDL_path = '/main/models/model0/dice_max.path'
 model_test0.load_state_dict(torch.load(TDL_path, map_location = {'cuda:1':'cuda:1'}))
 
-LRS_path = nrgbase + '/models/model1/dice_max.path'
+LRS_path = '/main/models/model1/dice_max.path'
 model_test1.load_state_dict(torch.load(LRS_path, map_location = {'cuda:2':'cuda:2'}))
 
-FSS_path =nrgbase+'/models/model2/dice_max.path'
+FSS_path = '/main/models/model2/dice_max.path'
 model_test2.load_state_dict(torch.load(FSS_path, map_location = {'cuda:3':'cuda:3'}))
 
 model_test0.eval()
@@ -79,12 +79,12 @@ model_test2.eval()
 #######################################################
 
 
-
-val_img_data = nrgbase + '/test/pre_img'
-val_liver_data = nrgbase + '/test/liver_labels_wb'
-val_diff_data = nrgbase + '/test/keydiffer3'
-val_imgs_data =nrgbase + '/test/img10'
-val_label_data = nrgbase + '/test/pre_labels_wb'
+data_root = '/main/data'
+val_img_data = data_root + '/test/pre_img'
+val_liver_data = data_root + '/test/liver_labels_wb'
+val_diff_data = data_root + '/test/keydiffer3'
+val_imgs_data = data_root + '/test/img10'
+val_label_data = data_root + '/test/pre_labels_wb'
 
 Val_Data = Images_Dataset_folder(val_img_data, val_liver_data, val_diff_data, val_imgs_data, val_label_data, 'val')
 
