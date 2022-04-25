@@ -44,10 +44,10 @@ torch.cuda.manual_seed(SEED)
 #######################################################
 # Passing the Dataset of Images and Labels
 #######################################################
-data_root = '/home/wenting/dsa/classifier/classifier2/labels/data2_5'
+data_root = '/main/data/Prediction'
 
 feature_names = ['HB', 'drug-new', 'serum', 'AST', 'CP', 'gender',	'age', 'ALB', 'PT', 'ALT', 'CPR', 'AFP']
-img_root = '/home/wenting/dsa/dataset/data2_total/split2'
+img_root = '/main/data/Prediction'
 img_dir = os.path.join(img_root, 'pre_img')
 mask_dir = os.path.join(img_root, 'gts')
 multi_dir = os.path.join(img_root, 'multi_gts')
@@ -68,11 +68,11 @@ dataloaders_dict = {'val': torch.utils.data.DataLoader(Test_data, batch_size=bat
 # Loading model
 #######################################################
 
-nrgbase = './Prediction'
+model_root = '/main/models/Prediction'
 
 
 mlp = combine_feature_model(50)
-mlp_path = nrgbase + '/models/model1/acc_max.path'
+mlp_path = model_root + '/model1.path'
 mlp.load_state_dict(torch.load(mlp_path, map_location={'cuda:7':'cuda:7'}))
 model1 = mlp.to(device)
 
@@ -80,12 +80,12 @@ model1 = mlp.to(device)
 rn = models.resnet18(pretrained=False)
 resnet = img_model(rn, 0.2)
 
-resnet_path = nrgbase + '/models/model2/acc_max.path'
+resnet_path = model_root + '/model2.path'
 resnet.load_state_dict(torch.load(resnet_path, map_location = {'cuda:7':'cuda:7'}))
 model2 = resnet.to(device)
 
 model3 = muin_model(1128)
-muin_path = nrgbase + '/models/model3/acc_max.path'
+muin_path = model_root + '/model3.path'
 model3.load_state_dict(torch.load(muin_path, map_location = {'cuda:7':'cuda:7'}))
 model3 = model3.to(device)
 
